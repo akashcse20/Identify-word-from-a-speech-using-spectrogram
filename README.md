@@ -61,7 +61,7 @@ pip install librosa soundfile numpy matplotlib
 
 ## 📊 Example Output
 ### 🎵 Spectrogram Example
-![Spectrogram](spectrogram_plots/example_spectrogram.png)
+<!-- Uploading "f01w01r1.wav_spectrogram.png"... -->
 
 ### 📜 MFCC Values Example
 ```
