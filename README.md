@@ -1,95 +1,81 @@
-# Identify-word-from-a-speech-using-spectrogram
+# 📌 Speech Word Identification using Spectrogram & MFCC
 
-This code performs speech processing using Librosa, SoundFile, Matplotlib, and NumPy. The code follows two major steps:
+## 📖 Overview
+This project processes speech audio files to extract individual words and generate Mel Frequency Cepstral Coefficients (MFCCs). The pipeline involves:
+1. **Converting Speech to a Spectrogram** for visualization and segmentation.
+2. **Detecting and Extracting Words** based on spectral changes.
+3. **Computing MFCC Features** for each extracted word.
 
-Speech Segmentation: The script loads a speech WAV file, generates a spectrogram, detects changes in the spectrum, and segments the audio into individual words or meaningful sound parts.
+## 🚀 Workflow
+### Step 1: Convert Speech to Spectrogram
+- **Input:** A `.wav` file containing spoken words.
+- **Method:**
+  - Load the audio file using `librosa`.
+  - Compute the spectrogram using Short-Time Fourier Transform (STFT).
+  - Apply amplitude-to-decibel conversion for better visualization.
+  - Detect spectral changes using thresholding.
+  - Extract individual word segments based on spectral variations.
+  - Save the segmented words as separate audio files.
+- **Output:**
+  - A **spectrogram image** showing frequency variations over time.
+  - Multiple **trimmed `.wav` files**, each containing a single spoken word.
 
-MFCC Feature Extraction: The segmented audio files are then processed to extract Mel-Frequency Cepstral Coefficients (MFCCs), which are stored in a text file for further use in machine learning models.
+### Step 2: Extract MFCC Features from Each Word
+- **Input:** A segmented `.wav` file (single-word audio clip).
+- **Method:**
+  - Compute **MFCC features** from the extracted word.
+  - Scale the MFCC values between -127 and 127.
+  - Flatten and store only the first **250 MFCC values**.
+  - Save the MFCC values as a `.txt` file.
+  - Visualize the MFCCs.
+- **Output:**
+  - A `.txt` file containing **250 MFCC values**.
+  - An **MFCC visualization** for each extracted word.
 
-1. Input
-The script takes a speech audio file (WAV format) as input. It expects:
+## 🛠️ Dependencies
+Ensure you have the following Python libraries installed:
+```bash
+pip install librosa soundfile numpy matplotlib
+```
 
-A single WAV file containing spoken words.
+## 📂 Folder Structure
+```
+📁 WAV to MFCC
+│-- 📂 inputwav/              # Original input .wav files
+│-- 📂 spectrogram_plots/     # Spectrogram images
+│-- 📂 trimWord/              # Extracted words as .wav files
+│-- 📂 word_mfc/              # MFCC values stored as .txt files
+│-- script.py                 # Main processing script
+```
 
-The WAV file should be stored at:
-"C:/Users/ZBOOK 14U G5/Documents/WAV to MFCC/inputwav/f01w01r1.wav"
+## 🔧 How to Run
+1. Place your `.wav` file in `inputwav/`.
+2. Run the script to generate spectrograms and extract words:
+   ```bash
+   python script.py
+   ```
+3. Extract MFCC features for a specific word:
+   ```bash
+   python script.py --mfcc path/to/word.wav
+   ```
 
-2. Methodology (Step-by-Step Explanation)
-Step 1: Speech Segmentation Using Spectrogram
-Purpose:
-The goal of this step is to analyze the spectrogram of the speech audio and segment the audio into individual words or meaningful parts.
+## 📊 Example Output
+### 🎵 Spectrogram Example
+![Spectrogram](spectrogram_plots/example_spectrogram.png)
 
-Process:
-Load the Audio File
+### 📜 MFCC Values Example
+```
+-12.345678
+ 10.234567
+ ...
+ (Total 250 values)
+```
 
-Uses librosa.load() to load the WAV file, extracting the waveform (y) and sample rate (sr).
+## 🔍 Future Improvements
+- Improve word segmentation accuracy.
+- Enhance noise reduction techniques.
+- Implement real-time speech processing.
 
-Compute Spectrogram
+---
+📌 **Developed for Speech Processing & Machine Learning Applications** 🎤📈
 
-Uses Short-Time Fourier Transform (STFT) to compute the frequency domain representation.
-
-Converts amplitude to decibels using librosa.amplitude_to_db().
-
-Plot Spectrogram
-
-Uses librosa.display.specshow() to visualize the spectrogram.
-
-Saves the spectrogram image as "C:/Users/ZBOOK 14U G5/Documents/WAV to MFCC/spectrogram_plots/".
-
-Detect Changes in the Spectrogram
-
-Applies a thresholding technique to detect points where there is a significant change in sound intensity.
-
-Segment Audio into Words
-
-Uses librosa.effects.split() to segment audio based on detected changes.
-
-Saves each segmented portion as a separate WAV file in:
-"C:/Users/ZBOOK 14U G5/Documents/WAV to MFCC/trimWord/".
-
-Step 2: MFCC Feature Extraction
-Purpose:
-The goal of this step is to extract MFCC features from each segmented word’s audio file for speech recognition.
-
-Process:
-Load the segmented word audio file
-
-Uses librosa.load() to load the segmented WAV file.
-
-Compute MFCC Features
-
-Uses librosa.feature.mfcc() to extract 13 MFCCs per frame.
-
-Normalizes the MFCC values between -127 and 127.
-
-Format the MFCC Values
-
-Flattens the MFCC matrix into a one-dimensional array.
-
-Ensures exactly 250 MFCC values by padding with zeros if necessary.
-
-Saves the formatted MFCCs as a text file at:
-"C:/Users/ZBOOK 14U G5/Documents/WAV to MFCC/word_mfc/".
-
-Plot MFCC Spectrogram
-
-Uses librosa.display.specshow() to visualize MFCC features.
-
-Displays the MFCC plot for analysis.
-
-3. Output
-1. Spectrogram Analysis & Segmentation
-A visual spectrogram image is saved at:
-"C:/Users/ZBOOK 14U G5/Documents/WAV to MFCC/spectrogram_plots/".
-
-Segmented audio files (words) are stored at:
-"C:/Users/ZBOOK 14U G5/Documents/WAV to MFCC/trimWord/".
-
-2. MFCC Feature Extraction
-MFCC feature text files (one per word) are stored at:
-"C:/Users/ZBOOK 14U G5/Documents/WAV to MFCC/word_mfc/".
-
-MFCC visualization plot is displayed.
-
-Summary
-This script automates the process of speech segmentation and feature extraction using spectrogram analysis and MFCC computation. The extracted MFCCs can be used for speech recognition, word classification, or deep learning models.
